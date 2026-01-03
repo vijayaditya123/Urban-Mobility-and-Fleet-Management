@@ -30,4 +30,12 @@ class FleetHub:
             )
         )
 
-    
+    def group_by_vehicle_type(self):
+        grouped = {}
+
+        for vehicles in self.hubs.values():
+         for vehicle in vehicles:
+            vehicle_type = vehicle.__class__.__name__
+            grouped.setdefault(vehicle_type, []).append(vehicle)
+
+        return grouped
