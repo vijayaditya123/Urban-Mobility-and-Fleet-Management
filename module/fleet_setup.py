@@ -1,4 +1,7 @@
 from abc import ABC, abstractmethod
+import csv
+from .electric_car import ElectricCar
+from .electric_scooter import ElectricScooter
 
 
 class Vehicle(ABC):
@@ -70,6 +73,12 @@ class FleetHub:
 
         self.hubs[hub_name].append(vehicle)
 
+    def display_hub(self):
+        for hub, vehicles in self.hubs.items():
+            print(f"\nHub: {hub}")
+            for v in vehicles:
+                print(v)
+
     def search_by_hub(self, hub_name):
         return self.hubs.get(hub_name, [])
 
@@ -86,9 +95,9 @@ class FleetHub:
 
         for vehicles in self.hubs.values():
             for v in vehicles:
-                if v.__class__.__name__ == "ElectricCar":
+                if isinstance(v, ElectricCar):
                     categories["Car"].append(v)
-                elif v.__class__.__name__ == "ElectricScooter":
+                elif isinstance(v, ElectricScooter):
                     categories["Scooter"].append(v)
 
         return categories
@@ -110,7 +119,6 @@ class FleetHub:
 
     def sort_by_model(self, hub_name):
         if hub_name not in self.hubs:
-            print("Hub not found")
             return []
 
         self.hubs[hub_name] = sorted(
@@ -118,6 +126,7 @@ class FleetHub:
             key=lambda v: v.model.lower()
         )
         return self.hubs[hub_name]
+
     def sort_by_battery_level(self):
         for hub, vehicles in self.hubs.items():
             self.hubs[hub] = sorted(
@@ -133,3 +142,74 @@ class FleetHub:
                 key=lambda v: v.get_rental_price(),
                 reverse=True
             )
+
+    def save_to_csv(self, filename="fleet_data.csv"):
+        with open(filename, "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                "hub",
+                "type",
+                "vehicle_id",
+                "model",
+                "battery",
+                "maintenance",
+                "rental_price",
+                "extra"
+            ])
+
+            for hub, vehicles in self.hubs.items():
+                for v in vehicles:
+                    if isinstance(v, ElectricCar):
+                        writer.writerow([
+                            hub,
+                            "car",
+                            v.vehicle_id,
+                            v.model,
+                            v.get_battery_percentage(),
+                            v.get_maintenance_status(),
+                            v.get_rental_price(),
+                            v.seating_capacity
+                        ])
+                    elif isinstance(v, ElectricScooter):
+                        writer.writerow([
+                            hub,
+                            "scooter",
+                            v.vehicle_id,
+                            v.model,
+                            v.get_battery_percentage(),
+                            v.get_maintenance_status(),
+                            v.get_rental_price(),
+                            v.max_speed_limit
+                        ])
+
+    def load_from_csv(self, filename="fleet_data.csv"):
+        self.hubs = {}
+
+        with open(filename, "r") as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                hub = row["hub"]
+
+                if hub not in self.hubs:
+                    self.hubs[hub] = []
+
+                if row["type"] == "car":
+                    vehicle = ElectricCar(
+                        row["vehicle_id"],
+                        row["model"],
+                        int(row["battery"]),
+                        row["maintenance"],
+                        float(row["rental_price"]),
+                        int(row["extra"])
+                    )
+                else:
+                    vehicle = ElectricScooter(
+                        row["vehicle_id"],
+                        row["model"],
+                        int(row["battery"]),
+                        row["maintenance"],
+                        float(row["rental_price"]),
+                        int(row["extra"])
+                    )
+
+                self.hubs[hub].append(vehicle)
