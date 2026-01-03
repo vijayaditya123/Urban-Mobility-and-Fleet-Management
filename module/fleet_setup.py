@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 import csv
 from .electric_car import ElectricCar
 from .electric_scooter import ElectricScooter
+import json
 
 
 class Vehicle(ABC):
@@ -213,3 +214,57 @@ class FleetHub:
                     )
 
                 self.hubs[hub].append(vehicle)
+    def save_to_json(self, filename="fleet_data.json"):
+        data = {}
+
+        for hub, vehicles in self.hubs.items():
+            data[hub] = []
+            for v in vehicles:
+                item = {
+                    "type": v.__class__.__name__,
+                    "vehicle_id": v.vehicle_id,
+                    "model": v.model,
+                    "battery": v.get_battery_percentage(),
+                    "maintenance": v.get_maintenance_status(),
+                    "rental_price": v.get_rental_price()
+                }
+
+                if isinstance(v, ElectricCar):
+                    item["seating_capacity"] = v.seating_capacity
+                else:
+                    item["max_speed_limit"] = v.max_speed_limit
+
+                data[hub].append(item)
+
+        with open(filename, "w") as f:
+            json.dump(data, f, indent=4)
+    def load_from_json(self, filename="fleet_data.json"):
+        self.hubs = {}
+
+        with open(filename, "r") as f:
+            data = json.load(f)
+
+        for hub, vehicles in data.items():
+            self.hubs[hub] = []
+
+            for v in vehicles:
+                if v["type"] == "ElectricCar":
+                    obj = ElectricCar(
+                        v["vehicle_id"],
+                        v["model"],
+                        v["battery"],
+                        v["maintenance"],
+                        v["rental_price"],
+                        v["seating_capacity"]
+                    )
+                else:
+                    obj = ElectricScooter(
+                        v["vehicle_id"],
+                        v["model"],
+                        v["battery"],
+                        v["maintenance"],
+                        v["rental_price"],
+                        v["max_speed_limit"]
+                    )
+
+                self.hubs[hub].append(obj)
