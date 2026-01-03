@@ -2,10 +2,11 @@
 <br/>
 Project Overview
 <br/>
-The Urban Mobility and Fleet Management System is a Python-based application designed to manage electric vehicle fleets operating across multiple urban hubs. The system allows administrators to create hubs, register vehicles, monitor fleet status, perform searching and sorting operations, and persist data using CSV and JSON formats. The project is built using object-oriented programming principles and simulates real-world fleet management operations in a structured and modular manner.
-
-Objectives
 <br/>
+The Urban Mobility and Fleet Management System is a Python-based application designed to manage electric vehicle fleets operating across multiple urban hubs. The system allows administrators to create hubs, register vehicles, monitor fleet status, perform searching and sorting operations, and persist data using CSV and JSON formats. The project is built using object-oriented programming principles and simulates real-world fleet management operations in a structured and modular manner.
+<br/>
+<br/>
+Objectives:
 The main objectives of this project are to efficiently manage multiple fleet hubs, support different types of electric vehicles, track battery levels, maintenance status, and rental prices, provide analytics on fleet status, enable sorting and searching of vehicles, store and retrieve fleet data using files, and offer a command-line interface for user interaction.
 
 System Architecture
