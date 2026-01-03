@@ -39,3 +39,17 @@ class FleetHub:
             grouped.setdefault(vehicle_type, []).append(vehicle)
 
         return grouped
+    def fleet_status_summary(self):
+        summary = {
+        "Available": 0,
+        "On Trip": 0,
+        "Under Maintenance": 0
+        }
+
+        for vehicles in self.hubs.values():
+          for vehicle in vehicles:
+            status = vehicle.get_maintenance_status()
+            if status in summary:
+                summary[status] += 1
+
+        return summary
