@@ -19,7 +19,7 @@ class ElectricCar(Vehicle):
         )
         self.seating_capacity = seating_capacity
 
-
     def calculate_trip_cost(self, distance):
-        return 5.0 + (0.50 * distance)
+        return 5 + (0.5 * distance)
+
 
