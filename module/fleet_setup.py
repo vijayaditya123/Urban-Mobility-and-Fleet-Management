@@ -118,3 +118,18 @@ class FleetHub:
             key=lambda v: v.model.lower()
         )
         return self.hubs[hub_name]
+    def sort_by_battery_level(self):
+        for hub, vehicles in self.hubs.items():
+            self.hubs[hub] = sorted(
+                vehicles,
+                key=lambda v: v.get_battery_percentage(),
+                reverse=True
+            )
+
+    def sort_by_fare_price(self):
+        for hub, vehicles in self.hubs.items():
+            self.hubs[hub] = sorted(
+                vehicles,
+                key=lambda v: v.get_rental_price(),
+                reverse=True
+            )
