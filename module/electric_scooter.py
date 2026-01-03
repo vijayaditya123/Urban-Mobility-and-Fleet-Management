@@ -1,5 +1,4 @@
-from .fleet_setup import Vehicle
-
+from module.fleet_setup import Vehicle
 
 class ElectricScooter(Vehicle):
     def __init__(
@@ -20,6 +19,8 @@ class ElectricScooter(Vehicle):
         )
         self.max_speed_limit = max_speed_limit
 
-    def calculate_trip_cost(self, distance):
-        return distance * 0.2
+    
+    def calculate_trip_cost(self, minutes):
+        return 1.0 + (0.15 * minutes)
+
 

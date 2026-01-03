@@ -1,5 +1,4 @@
-from .fleet_setup import Vehicle
-
+from module.fleet_setup import Vehicle
 
 class ElectricCar(Vehicle):
     def __init__(
@@ -20,5 +19,7 @@ class ElectricCar(Vehicle):
         )
         self.seating_capacity = seating_capacity
 
+
     def calculate_trip_cost(self, distance):
-        return distance * 0.5
+        return 5.0 + (0.50 * distance)
+
