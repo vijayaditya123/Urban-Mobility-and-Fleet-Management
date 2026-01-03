@@ -6,7 +6,7 @@ class Vehicle:
         self.set_maintenance_status(maintenance_status)
         self.set_rental_price(rental_price)
 
-
+    
     def get_battery_percentage(self):
         return self.__battery_percentage
 
@@ -16,14 +16,14 @@ class Vehicle:
         else:
             raise ValueError("Battery percentage must be between 0 and 100")
 
-
+    # Maintenance Status
     def get_maintenance_status(self):
         return self.__maintenance_status
 
     def set_maintenance_status(self, maintenance_status):
         self.__maintenance_status = maintenance_status
 
-  
+
     def get_rental_price(self):
         return self.__rental_price
 
@@ -32,4 +32,3 @@ class Vehicle:
             self.__rental_price = rental_price
         else:
             raise ValueError("Rental price must be positive")
-
