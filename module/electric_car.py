@@ -19,3 +19,6 @@ class ElectricCar(Vehicle):
             rental_price
         )
         self.seating_capacity = seating_capacity
+
+    def calculate_trip_cost(self, distance):
+        return distance * 0.5
